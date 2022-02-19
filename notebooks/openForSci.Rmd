@@ -1,0 +1,251 @@
+# Open Forensic Science book
+
+Following [this book](https://sctyner.github.io/OpenForSciR/intro.html) with its [github repo](https://github.com/sctyner/OpenForSciR).
+
+
+Set-up:
+```{r, eval=FALSE, echo=TRUE}
+options(repos = "http://cran.us.r-project.org")
+
+# check if a package is installed, if not install it from cran
+install_cran_missing <- function(pkgname){
+  if(class(pkgname) != "character"){
+    stop("pkgname must be a character")
+  }
+  if (!require(pkgname, character.only = TRUE, quietly = TRUE)){
+    install.packages(pkgname, dep = T)
+    if(!require(pkgname,character.only = TRUE)) stop("CRAN Package not found")
+  }
+}
+# check if a package is installed, if not install it from Github
+install_dev_missing <- function(pkgname, ghuser){
+  if(class(pkgname) != "character"){
+    stop("pkgname must be a character")
+  }
+  if (!require(pkgname, character.only = TRUE, quietly = TRUE)){
+    repo <- paste(ghuser, pkgname, sep ='/')
+    devtools::install_github(repo)
+    if(!require(pkgname,character.only = TRUE)) stop("Github repo for package not found")
+  }
+}
+
+# need devtools to get some packages 
+install_cran_missing("devtools")
+# packages used throughout the book 
+install_cran_missing("tidyverse") # or install_dev_missing("tidyverse", "tidyverse")
+
+#install_dev_missing("gt", "rstudio") 
+# this did not work, so had to do:
+install.packages("gt")
+
+# Chapter 2: DNA Validation
+# Watch out for dependency issues with RGtk2...
+# install_cran_missing("strvalidator")
+# this did not work, so had to do:
+install.packages("strvalidator")
+```
+
+Important quote: "Notice the distinction: the forensic scientist is not a member of law enforcement, so their main concern is not “catching the bad guy.” Instead, they are concerned with coming to the best conclusion using science."
+
+## Chapter 2: Validation of DNA
+
+- Short Tandem Repeats (STRs) - Multiple copies of an identical DNA sequence arranged in direct succession where the repeat sequence unit is 2 to 6 base pairs in length.
+- At each locus, the number of times a tetranucleotide sequence (e.g. AAGC) repeats is counted (Butler 2005). This count indicates the allele, or gene variation, at that particular locus.
+- As of January 1, 2017, there are 20 core loci in CODIS, the Combined DNA Index System, which is the FBI’s national program for DNA databases and software.
+- These sets of loci were chosen because of their high variability in the population. 
+- To find the alleles at each loci, the DNA sample is amplified using PCR, and then run through capillary electrophoresis (CE). The result of CE is the DNA profile, with the alleles on each locus indicated by different colored peaks from a chemical dyeing process.
+- The strvalidator package makes the validation process faster by automating data analysis with respect to “heterozygote balance, stutter ratio, inter-locus balance, and the stochastic threshold” [Hansson et al 2014](https://www.sciencedirect.com/science/article/pii/S1872497314001574?via%3Dihub).
+
+```{r}
+library(strvalidator)
+library(dplyr)
+library(ggplot2)
+data(set1)
+head(set1)
+```
+
+Data is usually stored in a wide format (columns as alleles and heights) and we need a long format: one column "Allele" and one column "height"
+```{r}
+# slim and trim the data
+set1.slim <- slim(set1, fix = c("Sample.Name", "Marker", "Dye"), stack = c("Allele", 
+    "Height"), keep.na = FALSE)
+dim(set1)
+dim(set1.slim)
+head(set1.slim)
+```
+
+We use `generateEPG()` to visualize an electropherogram-like plot of the data:
+```{r}
+p <- set1.slim %>% filter(Sample.Name != "Ladder") %>% generateEPG(kit = "ESX17")
+p + ggtitle("Mean peak heights for 8 samples from PC shown")
+```
+
+Next, get the reference sample data.
+```{r}
+data(ref1)
+head(ref1)
+ref1.slim <- slim(ref1, fix = c("Sample.Name", "Marker"), stack = "Allele", 
+    keep.na = FALSE)
+head(ref1.slim)
+```
+
+and plot:
+```{r}
+p <- generateEPG(ref1.slim, kit = "ESX17") + ggtitle("True profile for sample PC")
+```
+
+### Check stutter ratio
+
+We calculate the stutter for the eight replicates in set1 using one back stutter, no forward stutter and no overlap. 
+
+```{r}
+# make sure the right samples are being analyzed
+checkSubset(data = set1.slim, ref = ref1.slim)
+```
+```{r}
+# supply the false stutter and true stutter values for your data. these are
+# from the GUI.
+stutter_false_val <- c(-1.9, -1.8, -1.7, -0.9, -0.8, -0.7, 0.9, 0.8, 0.7)
+stutter_replace_val <- c(-1.3, -1.2, -1.1, -0.3, -0.2, -0.1, 0.3, 0.2, 0.1)
+# calculate the stutter values
+set1_stutter <- calculateStutter(set1.slim, ref1.slim, back = 1, forward = 0, 
+    interference = 0, replace.val = stutter_false_val, by.val = stutter_replace_val)
+
+stutterplot <- addColor(set1_stutter, kit = "ESX17") %>% sortMarker(kit = "ESX17", 
+    add.missing.levels = FALSE)
+marks <- levels(stutterplot$Marker)[-1]
+stutterplot$Marker <- factor(as.character(stutterplot$Marker), levels = marks)
+compare_dat <- data.frame(Marker = ref1$Marker[-1], perc95 = (c(11.9, 4.6, 10.9, 
+    10.7, 12.1, 12, 11.1, 10.4, 16, 11.4, 9.1, 10.1, 8.3, 14.4, 10.1, 12.8))/100)
+compare_dat <- filter(compare_dat, Marker %in% stutterplot$Marker)
+
+ggplot() + geom_point(data = stutterplot, position = position_jitter(width = 0.1), 
+    aes(x = Allele, y = Ratio, color = as.factor(Type)), alpha = 0.7) + geom_hline(data = compare_dat, 
+    aes(yintercept = perc95), linetype = "dotted") + facet_wrap(~Marker, ncol = 4, 
+    scales = "free_x", drop = FALSE) + labs(x = "True Allele", y = "Stutter Ratio", 
+    color = "Type")
+```
+
+- Stutter ratios by allele for each of the eight samples in the set1 data, computed for one back stutter, zero forward stutter, and no overlap. Note that SR increases with allele length (e.g. D10S1248; D2S1338; D12S391). Horizontal dotted lines represent the 95th percentile of stutter ratio values from the study done in Hansson, Gill, and Egeland (2014).
+
+### Check for heterozygote balance (intra-locus balance)
+
+Computing the heterozygote peak balance (Hb) is most important for analyzing samples with two or more contributors.
+
+```{r}
+set1_hb <- calculateHb(data = set1.slim, ref = ref1.slim, hb = 3, kit = "ESX17", 
+    sex.rm = TRUE, qs.rm = TRUE, ignore.case = TRUE)
+hbplot <- addColor(set1_hb, kit = "ESX17") %>% sortMarker(kit = "ESX17", add.missing.levels = FALSE)
+hbplot$Marker <- factor(as.character(hbplot$Marker), levels = marks)
+
+
+ggplot(data = hbplot) + geom_point(aes(x = MPH, y = Hb, color = Dye), position = position_jitter(width = 0.1)) + 
+    geom_hline(yintercept = 0.6, linetype = "dotted") + facet_wrap(~Marker, 
+    nrow = 4, scales = "free_x", drop = FALSE) + scale_color_manual(values = c("blue", 
+    "green", "black", "red")) + labs(x = "Mean Peak Height (RFU)", y = "Ratio", 
+    color = "Dye") + guides(color = guide_legend(nrow = 1)) + theme(axis.text.x = element_text(size = rel(0.8)), 
+    legend.position = "top")
+```
+
+The balance ratio is typically no less than 0.6 according to Gill, Sparkes, and Kimpton (1997), but there are a few exceptions to this rule in the set1 sample.
+
+### Check inter-locus balance
+
+Inter-locus balance (Lb) is a measure of peak balances across loci (Hansson, Gill, and Egeland 2014). The total height of the peaks in all loci should be spread evenly across each individual locus in a sample.
+
+```{r}
+set1_lb <- calculateLb(data = set1.slim, ref = ref1.slim, kit = "ESX17", option = "prop", 
+    by.dye = FALSE, ol.rm = TRUE, sex.rm = FALSE, qs.rm = TRUE, ignore.case = TRUE, 
+    na = 0)
+set1_height <- calculateHeight(data = set1.slim, ref = ref1.slim, kit = "ESX17", 
+    sex.rm = FALSE, qs.rm = TRUE, na.replace = 0)
+set1_lb <- set1_lb %>% left_join(set1_height %>% select(Sample.Name:Marker, 
+    Dye, TPH, H, Expected, Proportion) %>% distinct(), by = c("Sample.Name", 
+    "Marker", "Dye", TPPH = "TPH"))
+
+
+set1_lb <- sortMarker(set1_lb, kit = "ESX17", add.missing.levels = TRUE)
+
+ggplot(set1_lb) + geom_boxplot(aes(x = Marker, y = Lb, color = Dye), alpha = 0.7) + 
+    scale_color_manual(values = c("blue", "green", "black", "red")) + geom_hline(yintercept = 1/17, 
+    linetype = "dotted") + theme(legend.position = "top", axis.text.x = element_text(size = rel(0.8), 
+    angle = 270, hjust = 0, vjust = 0.5)) + labs(y = "Lb (proportional method)")
+```
+
+In the set1 data, 17 loci are measured, thus each individual locus balance should be about 1/17th of the total height of all peaks in RFUs.
+
+### Check stochastic threshold
+
+The stochastic threshold is the value of interest for determining allele drop-out.
+As recommended in Butler (2009), we use an LDT of 50. The stochastic threshold is modeled with a logistic regression:
+- Source code [here](https://github.com/OskarHansson/strvalidator/blob/master/R/calculateDropout.r)
+- "Method X/1/2 records the peak height of the partner allele to be used as the explanatory variable in the logistic regression"
+
+```{r}
+set1_do <- calculateDropout(data = set1.slim, ref = ref1.slim, threshold = 50, 
+    method = "1", kit = "ESX17")
+table(set1_do$Dropout)
+```
+
+In set1, there is no dropout, as the samples included are control samples, and thus enough DNA is present during amplification so there are no stochastic effects.
+
+The data set4 was created specifically for drop-out analysis, and contains 32 samples from three different reference profiles. The method = "1" argument computes dropout with respect to the low molecular weight allele in the locus.
+
+```{r}
+data(set4)
+data(ref4)
+set4_do <- calculateDropout(data = set4, ref = ref4, threshold = 50, method = "1", 
+    kit = "ESX17")
+table(set4_do$Dropout)
+```
+
+In the set4 data, 33 alleles dropped out (Dropout = 1), and locus dropout (Dropout = 2) occurred in 9 samples (68 alleles). 
+
+The probability of allele drop-out is computed via logistic regression of the dropout score with respect to the method 1, on the the height of the allele with low molecular weight. 
+
+The model parameters are also computed using the calculateT() function. This function also returns the smallest threshold value at which probability of dropout is less than or equal to a set value, typically 0.01 or 0.05, as well as a conservative threshold.
+
+```{r}
+set4_do2 <- set4_do %>% filter(Dropout != 2) %>% rename(Dep = Method1, Exp = Height)
+do_mod <- glm(Dep ~ Exp, family = binomial("logit"), data = set4_do2)
+set4_ths <- calculateT(set4_do2, pred.int = 0.98)
+set4_ths
+```
+
+Next, we compute predicted dropout probabilities P(D) and corresponding 95% confidence intervals and plot the results.
+
+```{r}
+xmin <- min(set4_do2$Exp, na.rm = T)
+xmax <- max(set4_do2$Exp, na.rm = T)
+predRange <- data.frame(Exp = seq(xmin, xmax))
+ypred <- predict(do_mod, predRange, type = "link", se.fit = TRUE)
+# 95% prediction interval
+ylower <- plogis(ypred$fit - qnorm(1 - 0.05/2) * ypred$se)  # Lower confidence limit.
+yupper <- plogis(ypred$fit + qnorm(1 - 0.05/2) * ypred$se)  # Upper confidence limit.
+# Calculate conservative prediction curve.
+yconservative <- plogis(ypred$fit + qnorm(1 - 0.05) * ypred$se)
+# Calculate y values for plot.
+yplot <- plogis(ypred$fit)
+# combine them into a data frame for plotting
+predictionDf <- data.frame(Exp = predRange$Exp, Prob = yplot, yupper = yupper, 
+    ylower = ylower)
+# plot
+th_dat <- data.frame(x = 500, y = 0.5, label = paste0("At ", round(set4_ths[1], 
+    0), " RFUs,\nthe estimated probability\nof dropout is 0.01."))
+ggplot(data = predictionDf, aes(x = Exp, y = Prob)) + geom_line() + geom_ribbon(fill = "red", 
+    alpha = 0.4, aes(ymin = ylower, ymax = yupper)) + geom_vline(xintercept = set4_ths[1], 
+    linetype = "dotted") + geom_text(data = th_dat, inherit.aes = FALSE, aes(x = x, 
+    y = y, label = label), hjust = 0) + xlim(c(0, 1500)) + labs(x = "Peak Height (RFUs)", 
+    y = "Probability of allele drop-out")
+```
+
+We can also look at a heat map of dropout for each marker by sample:
+
+```{r}
+set4_do %>% tidyr::separate(Sample.Name, into = c("num", "name", "num2")) %>% 
+    mutate(Sample.Name = paste(name, num, ifelse(is.na(num2), "", num2), sep = ".")) %>% 
+    ggplot(aes(x = Sample.Name, y = Marker, fill = as.factor(Dropout))) + geom_tile(color = "white") + 
+    scale_fill_brewer(name = "Dropout", palette = "Set2", labels = c("none", 
+        "allele", "locus")) + theme(axis.text.x = element_text(size = rel(0.8), 
+    angle = 270, hjust = 0, vjust = 0.5), legend.position = "top")
+```
