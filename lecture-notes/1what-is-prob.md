@@ -1,10 +1,12 @@
 # Probability is not intuitive for humans
 
-The human brain is not wired to understand probabilities. In the following examples, we see that most people will think the answer to these questions is easy and intuitive, but what our gut is telling us to the right answer, it is actually wrong!
+The human brain is not wired to understand probabilities intuitively. In the following examples, we see that most people will think the answer to these questions is easy and intuitive, but what our gut is telling us to be the right answer, it is actually wrong!
 
 <div style="text-align:center"><img src="../pics/slide1.png" width="750"/></div>
 
 One example is particularly interesting as it concerns many PhDs (some in Math) being adamantly wrong about a probability. This is the famous Monty Hall problem: there are three doors, behind one door there is a car and the other two doors have goats. The participant is asked to choose one door, and then, the host of the show will open a door with a goat. The participant will be asked if they want to change doors. 
+
+The _Ask Marylin_ column replied that the strategy to maximize the probability of winning was to switch doors, but people were not happy with her answer (Source: Mlodinow, 2008).
 
 <div style="text-align:center"><img src="../pics/slide2.png" width="750"/></div>
 
