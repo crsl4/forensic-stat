@@ -14,4 +14,4 @@ By the end of the course, you will be able to
 
 | Topic | Key take-away points | Lecture notes |
 | :---:   | :--- | :---:       |
-| What is probability? | 1) When it comes to probabilities, we do not trust our gut, we trust the formulas; 2) We estimate population probabilities from observed frequencies in samples; 3) The chosen sample is very important | [notes](https://github.com/crsl4/forensic-stat/blob/master/lecture-notes/1what-is-prob.md) | 
+| What is probability? | 1) When it comes to probabilities, we do not trust our gut, we trust the formulas; 2) We estimate population probabilities from observed frequencies in samples; 3) The chosen sample is very important | [notes](https://crsl4.github.io/forensic-stat//lecture-notes/1what-is-prob.html) | 
