@@ -22,7 +22,7 @@ The _Ask Marylin_ column replied that the strategy to maximize the probability o
 We can write probabilities in many different formats. Using a number between 0 and 1 is the most common format used in mathematics, but we can also represent this number as a percentage.
 
 **Why do we care about probabilities in forensic science?**
-Well, many times we are interested in a very specific probability: _What is the probability that a randomly selected individual will have a DNA profile that matches the DNA profile from the evidence sample?_
+Many times we are interested in a very specific probability: _What is the probability that a randomly selected individual will have a DNA profile that matches the DNA profile from the evidence sample?_
 
 If this probability is high, then maybe we are not impressed that our suspect matches the evidence DNA profile.
 If it is low, then we are very impressed that our suspect matches the evidence DNA profile.
