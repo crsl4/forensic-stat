@@ -61,10 +61,10 @@ _Where do we get this probability?_ It will depend on the disease prevalence and
 
 
 On the other side, we need the probability of getting a positive test for any person (sick or healthy). Usually, we only have the conditional probabilities for these types of tests: 
-- the probability of getting a positive test when you are sick `P(positive test| sick)` which is denoted the _sensitivity of a test_
-- the probability of getting a positive test when you are healthy `P(positive test|healthy)` which is denoted the _false positive rate_
+- the probability of getting a positive test when you are sick `P(positive test | sick)` which is denoted the _sensitivity of a test_
+- the probability of getting a positive test when you are healthy `P(positive test | healthy)` which is denoted the _false positive rate_
 
-To calculate the probability of getting a positive test (`P(positive test)`) when we only have the conditional probabilities (`P(positive test| sick)` and `P(positive test| healthy)`), we use the Law of Total Probability:
+To calculate the probability of getting a positive test `P(positive test)` when we only have the conditional probabilities `P(positive test | sick)` and `P(positive test | healthy)`, we use the Law of Total Probability:
 
 <div style="text-align:center"><img src="../pics/slide29.png" width="750"/></div>
 
@@ -78,15 +78,15 @@ Putting it all together, we get
 
 <div style="text-align:center"><img src="../pics/slide32.png" width="750"/></div>
 
-Note that here we are assuming a 50% probability of being sice (`P(sick)`). This is equivalent to not having any information so it is like a coin toss. (Also note that these are also made-up numbers).
+Note that here we are assuming a 50% probability of being sice `P(sick)`. This is equivalent to not having any information so it is like a coin toss. (Also note that these are also made-up numbers).
 
-Your probability of being sick (`P(sick)`) could be actually different if you have a high suspicion you could have COVID.
+Your probability of being sick `P(sick)` could be actually different if you have a high suspicion you could have COVID.
 
 <div style="text-align:center"><img src="../pics/slide33.png" width="750"/></div>
 
 The conditional probability changed dramatically from 17% when the probability of being sick was a coin toss (50%) to 65% when there is high suspicion that you might have COVID. This example shows that the new information (negative test) does not carry all the weight. Other information that goes into `P(sick)` is just as important, especially in forensic science.
 
-**In forensics,** we want the conditional probability that someone is guilty given that the DNA matched (`P(guilty|DNA match)`), but for this probability, we need to have the probability of being guilty in the first place (`P(guilty)`) which needs to come from other evidence.
+**In forensics,** we want the conditional probability that someone is guilty given that the DNA matched `P(guilty|DNA match)`, but for this probability, we need to have the probability of being guilty in the first place `P(guilty)` which needs to come from other evidence.
 
 <div style="text-align:center"><img src="../pics/slide34.png" width="750"/></div>
 
