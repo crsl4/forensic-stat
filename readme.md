@@ -25,9 +25,21 @@ Claudia Sol&iacute;s-Lemus is an assistant professor at the [Wisconsin Institute
 in Actuarial Sciences and Applied Mathematics at [ITAM](https://www.itam.mx/en).
 Then, she did a MA in [Mathematics](http://www.math.wisc.edu) and a PhD in [Statistics](http://www.stat.wisc.edu) at the [University of Wisconsin-Madison](http://www.wisc.edu). 
 
-- Pronouns: she/her
-- Name pronunciation: [namedrop.io/claudiasolislemus](https://namedrop.io/claudiasolislemus)
-- [Lab Website](https://solislemuslab.github.io/)
-- [Google scholar](https://scholar.google.com/citations?user=GrUypj8AAAAJ&hl=en&oi=ao)
-- [GitHub](https://github.com/crsl4)
-- [Contact Info](https://solislemuslab.github.io//pages/people.html)
+<div class="container">
+    <div class="row-fluid">
+        <div class="span5">
+        Pronouns: she/her <br/>
+        <a href="https://namedrop.io/claudiasolislemus">Name pronunciation</a><br/>
+        <a href="https://solislemuslab.github.io/">Lab website</a><br/>
+        <a href="https://scholar.google.com/citations?user=GrUypj8AAAAJ&hl=en&oi=ao">Google scholar</a><br/>
+        <a href="https://github.com/crsl4">GitHub</a><br/>
+        <a href="https://solislemuslab.github.io//pages/people.html">Contact Info</a><br/>
+        </div>
+        <div class="span2">
+        <a href="../pics/claudiaSmall1.png">
+            <img src="../pics/claudiaSmall1.png"
+                  title="Claudia Sol&iacute;s-Lemus" alt="Claudia Sol&iacute;s.Lemus"/></a>
+        </div>
+    </div>
+</div>
+
