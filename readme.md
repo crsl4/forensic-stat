@@ -37,7 +37,7 @@ Then, she did a MA in [Mathematics](http://www.math.wisc.edu) and a PhD in [Stat
         </div>
         <div class="col-sm-8">
         <a href="../pics/claudiaSmall1.png">
-            <img src="https://crsl4.github.io/forensic-stat//pics/claudiaSmall1.png"
+            <img src="https://crsl4.github.io/forensic-stat//pics/claudiaSmall1.png" width="250"
                   title="Claudia Sol&iacute;s-Lemus" alt="Claudia Sol&iacute;s.Lemus"/></a>
         </div>
     </div>
