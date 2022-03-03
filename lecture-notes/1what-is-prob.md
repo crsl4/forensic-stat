@@ -1,4 +1,4 @@
-# Probability is not intuitive for humans
+# 0. Probability is not intuitive for humans
 
 The human brain is not wired to understand probabilities intuitively. In the following examples, we see that most people will think the answer to these questions is easy and intuitive, but what our gut is telling us to be the right answer, it is actually wrong!
 
@@ -15,7 +15,7 @@ The _Ask Marylin_ column replied that the strategy to maximize the probability o
 - You are not bad at probability, we all are!
 - When it comes to probabilities, we do not trust our gut, we trust the formulas
 
-# What is probability?
+# 1. What is probability?
 
 <div style="text-align:center"><img src="../pics/slide3.png" width="750"/></div>
 
