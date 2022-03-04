@@ -32,13 +32,14 @@ Then, she did a MA in [Mathematics](http://www.math.wisc.edu) and a PhD in [Stat
 <div class="container">
     <div class="row-fluid">
         <div class="col-sm-2">
-        Pronouns: she/her <br/>
-        <a href="https://namedrop.io/claudiasolislemus">Name pronunciation</a><br/>
-        <a href="https://solislemuslab.github.io/">Lab website</a><br/>
-        <a href="https://scholar.google.com/citations?user=GrUypj8AAAAJ&hl=en&oi=ao">Google scholar</a><br/>
-        <a href="https://github.com/crsl4">GitHub</a><br/>
-        <a href="https://solislemuslab.github.io//pages/people.html">Contact Info</a><br/>
+            Pronouns: she/her <br/>
+            <a href="https://namedrop.io/claudiasolislemus">Name pronunciation</a><br/>
+            <a href="https://solislemuslab.github.io/">Lab website</a><br/>
+            <a href="https://scholar.google.com/citations?user=GrUypj8AAAAJ&hl=en&oi=ao">Google scholar</a><br/>
+            <a href="https://github.com/crsl4">GitHub</a><br/>
+            <a href="https://solislemuslab.github.io//pages/people.html">Contact Info</a><br/>
         </div>
+
         <div class="col-sm-2">
         <a href="../pics/claudiaSmall1.png">
             <img src="https://crsl4.github.io/forensic-stat//pics/claudiaSmall1.png" width="150"
