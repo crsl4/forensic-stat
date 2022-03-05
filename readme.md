@@ -30,8 +30,8 @@ in Actuarial Sciences and Applied Mathematics at [ITAM](https://www.itam.mx/en).
 Then, she did a MA in [Mathematics](http://www.math.wisc.edu) and a PhD in [Statistics](http://www.stat.wisc.edu) at the [University of Wisconsin-Madison](http://www.wisc.edu). 
 
 <div class="container">
-    <div class="row-fluid">
-        <div class="col-sm-2">
+    <div class="row">
+        <div class="column">
             Pronouns: she/her <br/>
             <a href="https://namedrop.io/claudiasolislemus">Name pronunciation</a><br/>
             <a href="https://solislemuslab.github.io/">Lab website</a><br/>
@@ -39,8 +39,7 @@ Then, she did a MA in [Mathematics](http://www.math.wisc.edu) and a PhD in [Stat
             <a href="https://github.com/crsl4">GitHub</a><br/>
             <a href="https://solislemuslab.github.io//pages/people.html">Contact Info</a><br/>
         </div>
-
-        <div class="col-sm-4">
+        <div class="column">
         <a href="../pics/claudiaSmall1.png">
             <img src="https://crsl4.github.io/forensic-stat//pics/claudiaSmall1.png" width="150"
                   title="Claudia Sol&iacute;s-Lemus" alt="Claudia Sol&iacute;s.Lemus"/></a>
