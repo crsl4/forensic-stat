@@ -20,7 +20,7 @@ By the end of the course, you will be able to
 
 ## YouTube video of the lecture
 
-You can find the 90-minute lecture including all three topics in [this link]().
+You can find the 90-minute lecture including all three topics in [this link](https://youtu.be/ARq7fX41KPA).
 
 
 ## Meet the instructor
@@ -32,17 +32,17 @@ Then, she did a MA in [Mathematics](http://www.math.wisc.edu) and a PhD in [Stat
 <div class="container">
     <div class="row">
         <div class="column">
+            <a href="../pics/claudiaSmall1.png">
+            <img src="https://crsl4.github.io/forensic-stat//pics/claudiaSmall1.png" width="150"
+                  title="Claudia Sol&iacute;s-Lemus" alt="Claudia Sol&iacute;s.Lemus"/></a>
+        </div>
+        <div class="column">
             Pronouns: she/her <br/>
             <a href="https://namedrop.io/claudiasolislemus">Name pronunciation</a><br/>
             <a href="https://solislemuslab.github.io/">Lab website</a><br/>
             <a href="https://scholar.google.com/citations?user=GrUypj8AAAAJ&hl=en&oi=ao">Google scholar</a><br/>
             <a href="https://github.com/crsl4">GitHub</a><br/>
             <a href="https://solislemuslab.github.io//pages/people.html">Contact Info</a><br/>
-        </div>
-        <div class="column">
-        <a href="../pics/claudiaSmall1.png">
-            <img src="https://crsl4.github.io/forensic-stat//pics/claudiaSmall1.png" width="150"
-                  title="Claudia Sol&iacute;s-Lemus" alt="Claudia Sol&iacute;s.Lemus"/></a>
         </div>
     </div>
 </div>
